@@ -1,12 +1,17 @@
-terms = Term.where(plan_id: plan.id)
-#termcourse = TermCourse.where()
+term = Term.where(plan_id: plan.id)
 
-termcourse = TermCourse.where(term_id: terms.ids)
+json.(plan, :student, :name, :major, :currYear, :currTerm)
 
-courses = termcourse.where()
-
-json.array!termcourse do |t2|
-    json.(t2, :term, :course)
-
+json.terms term do | t |
+json.(t, :semester, :year)
+termcourse = TermCourse.where(term: t)
+json.courses termcourse do |tcourse|
+#json.(tcourse, :course)
+#json.id tcourse.id
+json.name tcourse.course.name
+#json.course tcourse.course do | c |
+# json.id c.id
+# json.name c.name
+#end
 end
-
+end
