@@ -8,6 +8,10 @@ span {
 	border: 0;
 }
 
+#pushmenu1 {
+    padding: 15px;
+}
+
 #pushcontentwrapper{ /* wrapper around page content other than menu markup */
     position: relative;
     width: 100%;
