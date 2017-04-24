@@ -4,7 +4,7 @@
 //IMPORTANT: onload to call function from HTML...OK
 var CA;
         //change this to courses.json builder?
-$.getJSON('localhost:3000/plans/1.json', function(data) {
+$.getJSON('localhost:3000/plans/2.json', function(data) {
 		CA = new courseArray();
 		//for loop to cycle through courses and add them
 		for (var schoolClass in data) {

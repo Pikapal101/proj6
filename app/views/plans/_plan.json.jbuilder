@@ -1,11 +1,18 @@
-json.extract! plan, :id, :name, :currYear, :major, :student, :currTerm
+term = Term.where(plan_id: plan.id)
 
-terms = Term.where(plan_id: @plan.id)
-termcourse = TermCourse.where(term_id: terms.ids)
-courses = Course.where(term_course: termcourse)
+json.(plan, :student, :name, :major, :currYear,  :currTerm)
 
-json.courses courses do |course|
-		json.name course.name
+json.terms term do | t |
+	json.(t, :semester, :year)
+	
+	termcourse = TermCourse.where(term: t)
+	json.courses termcourse do |tcourse|
+		#json.(tcourse, :course)
+		#json.id tcourse.id
+		json.name tcourse.course.name
+		#json.course tcourse.course do | c |
+		#	json.id c.id
+		#	json.name c.name
+		#end
+	end
 end
-
-json.url plan_url(plan, format: :json)
