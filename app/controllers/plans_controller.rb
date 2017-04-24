@@ -11,6 +11,8 @@ class PlansController < ApplicationController
   # GET /plans/1.json
   def show
     @id = @plan.id
+    @name = @plan.name
+    @major = @plan.major
   end
 
   # GET /plans/new
