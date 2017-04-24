@@ -10,7 +10,7 @@ json.terms term do | t |
 		json.(t, :semester, :year)
 		json.name tcourse.course.name
 		json.cid tcourse.course.cid
-		json.description tcourse.course.description
+        json.description tcourse.course.description
 		json.credits tcourse.course.credits
 
 	end
