@@ -43,6 +43,190 @@
 		
 		<script>
 			
+			var CurrentPlan;  
+
+			$.getJSON('/plans/<%= @id %>.json', function(data) {
+			CurrentPlan = new plan(data.name, data.currYear, data.major, data.student, data.currTerm);
+		
+		//for loop to cycle through courses and add them
+		for (var schoolClass in data.terms.courses) {
+			CurrentPlan.addClass(data.terms.courses[schoolClass].semester, data.terms.courses[schoolClass].year, data.terms.courses[schoolClass].cid, data.terms.courses[schoolClass].name, data.terms.courses[schoolClass].credits);
+		}
+		
+	});
+
+var today = new Date();
+var fallClass;
+var springClass;
+var summerClass;
+
+
+//main function
+function populatePage(){
+	
+	//Step 2. Re-organize by Year
+	CurrentPlan.convertToYear();
+	
+	//Step 3. Populate page with divs holding the data
+	CurrentPlan.printData();
+}
+
+
+//Constructor for plan
+//var plan = function(){};
+function plan(planName, catalogYear, major, studentName, currentSem){
+	this.planName = planName;
+	this.catalogYear = catalogYear;
+	this.major = major;
+	this.studentName = studentName;
+	this.currentSem = currentSem;
+	this.courses = {};
+	this.years = {};
+}
+
+//Function to add a class to courses
+plan.prototype.addClass = function(term, years, courseNumber, courseName, credits){
+	//Supposed to be }, but it doesn't work!
+	this.courses[courseNumber] = new course(term, years, courseNumber, courseName, credits);
+};
+
+//Constructor for course
+function course(term, year, courseNumber, courseName, credits){
+	this.term = term;
+	this.year = year;
+	this.courseNumber = courseNumber;
+	this.courseName = courseName;
+	this.credits = credits;
+}
+
+//Constructor for year
+function year(currentYear){
+	this.currentYear = currentYear;
+	this.fall = {};
+	this.spring = {};
+	this.summer = {};
+}
+
+//SOS
+//Function to convert data into year hash
+plan.prototype.convertToYear = function(){
+	for(var key in CurrentPlan.courses){
+		
+		//Grab year for course
+		var currYear = this.courses[key].year;
+		
+		//SOS If year doesn't exist in year hash, create year object and add to hash
+		if(!this.years[currYear]){
+			this.years[currYear] = new year(currYear);
+		}
+		
+		//Place course in the corresponding term hash in year
+		//Fall
+		if(this.courses[key].term === "Fall"){
+			this.years[currYear].fall[this.courses[key].courseNumber] = this.courses[key];
+		}
+		
+		//Spring
+		else if (this.courses[key].term === "Spring"){
+			this.years[currYear].spring[this.courses[key].courseNumber] = this.courses[key];
+		}
+		
+		//Else
+		else{
+			this.years[currYear].summer[this.courses[key].courseNumber] = this.courses[key];
+		}
+	}
+	//TODO: Create years any years inbetween that have not been created
+	
+};
+
+plan.prototype.printData = function(){
+	//TODO: Print the data structure in the UR div
+	var html = "<table>";
+	for(key in CurrentPlan.years){
+		var curYear = this.years[key].currentYear;
+		//Check to see if year is history or current
+		checkDate(curYear);
+		
+			html += "<tr>";
+			//Dont know if I can call variables like this or if it will just be text
+				html+= "<th class=  \"" + fallClass + "\">Fall " + curYear + "</th>";
+				html+= "<th class=  \"" + springClass + "\">Spring " +(parseInt(curYear) + 1) + "</th>";
+				html+= "<th class=  \"" + summerClass + "\">Summer " + (parseInt(curYear) + 1)  + "</th>";
+				html+= "</tr>";
+				//Start row for Fall Spring and Summer
+				html+="<tr class=\"" + curYear + "\">";
+				//Create Fall table
+				html+= "<td class=  \"" + fallClass + "\">";
+				html+="<ul>";
+				for(FA in CurrentPlan.years[key].fall){
+					var idFall = this.years[key].fall[FA].courseNumber;
+					var nameFall = this.years[key].fall[FA].courseName;
+					html+="<li>" + idFall  + ": " + nameFall + "</li>";
+				}
+				html+="</ul>";
+				html+="</td>";
+				
+				//Create Spring table
+				html+= "<td class=  \"" + springClass + "\">";
+				html+="<ul>";
+				for(SP in CurrentPlan.years[key].spring){
+					var idSpring = this.years[key].spring[SP].courseNumber;
+					var nameSpring = this.years[key].spring[SP].courseName;
+					html+="<li>" + idSpring  + ": " + nameSpring + "</li>";
+				}
+				html+="</ul>";
+				html+="</td>";
+				
+				//Create Summer table
+				html+= "<td class=  \"" + summerClass + "\">";
+				html+="<ul>";
+				for(SU in CurrentPlan.years[key].summer){
+					var idSummer = this.years[key].summer[SU].courseNumber;
+					var nameSummer = this.years[key].summer[SU].courseName;
+					html+="<li>" + idSummer  + ": " + nameSummer + "</li>";
+				}
+				html+="</ul>";
+				html+="</td>";
+				//End the tr for Fall Spring and Summer
+				html+="</tr>";
+	}
+	html += "</table>";
+	
+	document.getElementById('UR').innerHTML = html;
+};
+
+checkDate = function(year) {
+	fall = new Date("8/23/" + year);
+	spring = new Date("1/10/" + (parseInt(year) + 1));
+	summer = new Date("5/29/" + (parseInt(year) + 1));
+	
+	if(fall < today){
+			fallClass = "history";
+	}
+	else{
+			fallClass = "current";
+	}
+	
+	if(spring < today){
+		springClass = "history";
+	}
+	else{
+		springClass = "current";
+	}
+	
+	if(summer < today){
+		summerClass = "history";
+	}
+	else{
+		summerClass = "current";
+	}
+};
+			
+		</script>
+		
+		<script>
+			
 			jQuery(function(){ // on DOM load
 			
 				menu1 = new pushmenu({  // initialize menu example
@@ -63,8 +247,6 @@
 			});
 		
 		</script>
-		
-		<script src="proj2.js" type="text/javascript"></script>
 		
 		<script src="creatTable.js" type="text/javascript"></script>
 		
@@ -137,7 +319,7 @@
 			</div>
 			<div id="R">
 				<div id="title">
-					<p>BRANCH (formerly known as APE)</p>
+					<p>BRANCH (formerly known as APE) Plan Name: <%= @name %> Major: <%= @major %> </p>
 					<!--ADD DYNAMIC STUFF IN HERE?-->
 				</div>
 				<div id="UR"></div>

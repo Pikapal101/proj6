@@ -7,7 +7,7 @@
 //Global var for Plan
 var CurrentPlan;  /*= new plan("Best Plan", "2017-2018", "Computer Science", "Spanncer", "Spring");*/
 
-$.getJSON('localhost:3000/plans/1.json', function(data) {
+$.getJSON('/plans/<%= @id %>.json', function(data) {
 		CurrentPlan = new plan(data.name, data.currYear, data.major, data.student, data.currTerm);
 		
 		//for loop to cycle through courses and add them
