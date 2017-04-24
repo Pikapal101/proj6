@@ -54,10 +54,6 @@
 					CurrentPlan.addClass(course.semester, course.year, course.cid, course.name, course.credits);
 				}
 			}
-		//for loop to cycle through courses and add them
-		//for (var schoolClass in data.terms.courses) {
-			//CurrentPlan.addClass(data.terms.courses[schoolClass].semester, data.terms.courses[schoolClass].year, data.terms.courses[schoolClass].cid, data.terms.courses[schoolClass].name, data.terms.courses[schoolClass].credits);
-		//}
 		
 			});
 
@@ -231,6 +227,74 @@ checkDate = function(year) {
 			
 		</script>
 		
+	<script>
+	var CA;
+		
+	$.getJSON('/courses.json', function(data) {
+	CA = new courseArray();
+	//for loop to cycle through courses and add them
+	for (var schoolClass in data) {
+		CA.addCourse(data[schoolClass].cid, data[schoolClass].name, data[schoolClass].description, data[schoolClass].credits);
+	}
+	});
+
+	function createTable(){
+		CA.printTable();
+	}
+
+	function courseArray(){
+		this.courses = {};
+	};
+	function tableCourse(courseNumber, courseName, courseDes, cred){
+		this.courseNumber = courseNumber;
+		this.courseName = courseName;
+		this.courseDes = courseDes;
+		this.cred = cred;
+	};
+	courseArray.prototype.addCourse = function(courseNumber, courseName, courseDes, cred){
+		this.courses[courseNumber] = new tableCourse(courseNumber, courseName, courseDes, cred);
+	};
+
+	courseArray.prototype.printTable = function(){
+		var html = "<input type=\"text\" id=\"tableInput\" onkeyup=\"filterTable()\" placeholder=\"Find the right Banana (Course)\">";
+		html += "<table id=\"searchTable\">";
+		html += "<tr class=\"header\">";
+		html+= "<th>Course ID</th>" + "<th>Name</th>" +"<th>Credits</th>" ;
+		html+= "</tr>";
+	for(var key2 in CA.courses){
+		html+="<tr>";
+		html+= "<td>"+CA.courses[key2].courseNumber+"</td>" + "<td>"+CA.courses[key2].courseName+"</td>" + "<td>"+CA.courses[key2].cred+"</td>";
+		html+="</tr>";
+	}
+	html += "</table>";
+	
+	document.getElementById('LR').innerHTML = html;
+};
+
+	function filterTable(){
+	// Declare variables 
+	var input, filter, table, tr, td, i;
+	input = document.getElementById("tableInput");
+	filter = input.value.toUpperCase();
+	table = document.getElementById("searchTable");
+	tr = table.getElementsByTagName("tr");
+
+	// Loop through all table rows, and hide those who don't match the search query
+	for (i = 0; i < tr.length; i++) {
+	td = tr[i].getElementsByTagName("td")[0];
+	td2 = tr[i].getElementsByTagName("td")[1];
+	if (td || td2) {
+		if (td.innerHTML.toUpperCase().indexOf(filter) > -1 || td2.innerHTML.toUpperCase().indexOf(filter) > -1) {
+		      tr[i].style.display = "";
+		} else {
+			tr[i].style.display = "none";
+		}
+	} 
+	}		
+	};		
+	</script>
+		
+		
 		<script>
 			
 			jQuery(function(){ // on DOM load
@@ -253,8 +317,6 @@ checkDate = function(year) {
 			});
 		
 		</script>
-		
-		<script src="creatTable.js" type="text/javascript"></script>
 		
 		<!-- Accordion-->
 		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -325,7 +387,8 @@ checkDate = function(year) {
 			</div>
 			<div id="R">
 				<div id="title">
-					<p>BRANCH (formerly known as APE) Plan Name: <%= @name %> Major: <%= @major %> </p>
+					<div style="padding: 25px; text-align: left; float: left; display: inline-block;">BRANCH (formerly known as APE)</div>
+<div style="padding: 25px; text-align: right; float: right; display: inline-block;"><b>Plan Name:</b> <%= @name %> &nbsp;&nbsp;&nbsp;&nbsp;<b>Major:</b> <%= @major %> </div>
 					<!--ADD DYNAMIC STUFF IN HERE?-->
 				</div>
 				<div id="UR"></div>
