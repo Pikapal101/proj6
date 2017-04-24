@@ -346,11 +346,15 @@ checkDate = function(year) {
 		</nav>
 
 <div id="title">
+    <div id="menu-button">
+        <a id="drawer" class="animateddrawer toggleitem" href="#" onClick="menu1.toggle(); return false">
+            <span></span>
+        </a>
+    </div>
+
     <div style="padding: 25px; text-align: left; float: left; display: inline-block;">BRANCH (formerly known as APE)</div>
     <div style="padding: 25px; text-align: right; float: right; display: inline-block;"><b>Plan Name:</b> <%= @name %> &nbsp;&nbsp;&nbsp;&nbsp;<b>Major:</b> <%= @major %> </div>
-    <div id="menu-button"><a id="drawer" class="animateddrawer toggleitem" href="#" onClick="menu1.toggle(); return false">
-        <span></span>
-    </a></div>
+
 </div>
 
 			<!--FOUR DIVS-->
