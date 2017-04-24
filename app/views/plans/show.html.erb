@@ -42,6 +42,7 @@
 		</script>
 		
 		<script>
+
 			var CurrentPlan;  
 
 			$.getJSON('/plans/<%= @id %>.json', function(data) {
@@ -55,11 +56,12 @@
 			}
 		
 			});
-
-var today = new Date();
-var fallClass;
-var springClass;
-var summerClass;
+			var today = new Date();
+			var fallClass;
+			var springClass;
+			var summerClass;
+			
+		
 
 
 //main function
