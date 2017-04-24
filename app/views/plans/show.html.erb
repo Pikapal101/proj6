@@ -48,12 +48,18 @@
 			$.getJSON('/plans/<%= @id %>.json', function(data) {
 			CurrentPlan = new plan(data.name, data.currYear, data.major, data.student, data.currTerm);
 		
-		//for loop to cycle through courses and add them
-		for (var schoolClass in data.terms.courses) {
-			CurrentPlan.addClass(data.terms.courses[schoolClass].semester, data.terms.courses[schoolClass].year, data.terms.courses[schoolClass].cid, data.terms.courses[schoolClass].name, data.terms.courses[schoolClass].credits);
-		}
 		
-	});
+			for(let term of data.terms){
+				for(let course of term.courses){
+					CurrentPlan.addClass(course.semester, course.year, course.cid, course.name, course.credits);
+				}
+			}
+		//for loop to cycle through courses and add them
+		//for (var schoolClass in data.terms.courses) {
+			//CurrentPlan.addClass(data.terms.courses[schoolClass].semester, data.terms.courses[schoolClass].year, data.terms.courses[schoolClass].cid, data.terms.courses[schoolClass].name, data.terms.courses[schoolClass].credits);
+		//}
+		
+			});
 
 var today = new Date();
 var fallClass;
