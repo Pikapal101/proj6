@@ -3,15 +3,15 @@
 //JS for PROJ 3
 //IMPORTANT: onload to call function from HTML...OK
 var CA;
+        //change this to courses.json builder?
+$.getJSON('localhost:3000/plans/1.json', function(data) {
+		CA = new courseArray();
+		//for loop to cycle through courses and add them
+		for (var schoolClass in data) {
+			CA.addCourse(data[schoolClass].number, data[schoolClass].name, data[schoolClass].description, data[schoolClass].credits);
+		}
 
-//change this to courses.json builder?
-$.getJSON('/plans/<%= @id %>.json', function(data) {
-    CA = new courseArray();
-    //for loop to cycle through courses and add them
-    for (var schoolClass in data) {
-        CA.addCourse(data[schoolClass].number, data[schoolClass].name, data[schoolClass].description, data[schoolClass].credits);
-    }
-});
+	});
 
 function createTable(){
 			CA.printTable();
