@@ -219,3 +219,16 @@ select{
 	overflow-y: scroll;
 }
 
+/* ebudd: added this to properly align the left and right columns*/
+#menu-button {
+    width: 100%;
+    
+    background-color: #00BFFF;
+}
+
+#notice {
+    background-color: #00BFFF;
+    margin: 0px;
+    padding: 10px;
+}
+

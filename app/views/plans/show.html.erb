@@ -344,13 +344,19 @@ checkDate = function(year) {
 			</ul>
 			
 		</nav>
-	
+
+<div id="title">
+    <div style="padding: 25px; text-align: left; float: left; display: inline-block;">BRANCH (formerly known as APE)</div>
+    <div style="padding: 25px; text-align: right; float: right; display: inline-block;"><b>Plan Name:</b> <%= @name %> &nbsp;&nbsp;&nbsp;&nbsp;<b>Major:</b> <%= @major %> </div>
+    <div id="menu-button"><a id="drawer" class="animateddrawer toggleitem" href="#" onClick="menu1.toggle(); return false">
+        <span></span>
+    </a></div>
+</div>
+
 			<!--FOUR DIVS-->
 			
 			<div id="L">
-			<a id="drawer" class="animateddrawer toggleitem" href="#" onClick="menu1.toggle(); return false">
-				<span></span>
-			</a>
+
 				
 				<div id="UL">
 				<!--Accordion-->
@@ -386,11 +392,6 @@ checkDate = function(year) {
 				
 			</div>
 			<div id="R">
-				<div id="title">
-					<div style="padding: 25px; text-align: left; float: left; display: inline-block;">BRANCH (formerly known as APE)</div>
-<div style="padding: 25px; text-align: right; float: right; display: inline-block;"><b>Plan Name:</b> <%= @name %> &nbsp;&nbsp;&nbsp;&nbsp;<b>Major:</b> <%= @major %> </div>
-					<!--ADD DYNAMIC STUFF IN HERE?-->
-				</div>
 				<div id="UR"></div>
 				<div id="LR">
 					<!--Search bar-->
