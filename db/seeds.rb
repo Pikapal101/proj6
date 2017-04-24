@@ -26,7 +26,7 @@ plans = Plan.create([{user_id: user1.id, name: "Plan1", currYear: 2017, major: "
 terms = Term.create([{plan: plans.first, semester: "Fall", year: 2017} ,{plan: plans.first, semester: "Spring", year: 2018} ,{plan: plans.first, semester: "Fall", year: 2018}, {plan: plans.first, semester: "Spring", year: 2019}, {plan: plans.first, semester: "Fall", year: 2019}, {plan: plans.first, semester: "Spring", year: 2020}, {plan: plans.second, semester: "Fall", year: 2017}, {plan: plans.second, semester: "Spring", year: 2018}, {plan: plans.second, semester: "Fall", year: 2018}, {plan: plans.second, semester: "Spring", year: 2019}, {plan: plans.second, semester: "Fall", year: 2019}, {plan: plans.second, semester: "Spring", year: 2020}])
 
 #add courses
-courses = Course.create([{name: "Foundations"}, {name: "Calculus"}, {name: "PAC"}, {name: "Calculus II"}, {name: "U.S. History"}])
+courses = Course.create([{cid: "CS-200", name: "Foundations", credits: 3, description: "Fun"}, {cid: "MATH-1", name: "Calculus", credits: 5, description: "not so fun"}, {cid: "BLEH-101", name: "PAC", credits: 2, description: "do lots of stuff"}, {cid: "MATH-2", name: "Calculus II", credits: 5, description: "more math"}, {cid: "HIST-1000", name: "U.S. History", credits: 3, description: "First half of U.S. History"}])
 
 #add term courses
 TermCourse.create([{term: terms.first, course: courses.first}, {term: terms.first, course: courses.second}, {term: terms.first, course: courses.third}])
