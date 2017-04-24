@@ -21,3 +21,26 @@ body {
 header {
     padding: 10px;
 }
+
+div.field label {
+    margin: auto;
+    text-align: center;
+}
+
+div.field input {
+    border-radius: 5px;
+}
+
+div.field input:focus {
+    border-radius: 5px;
+    border: 2px solid blue;
+}
+
+form.new_user {
+    margin-top: 30px;
+}
+
+h2.login {
+    font-size: 14pt;
+    padding: 10px;
+}

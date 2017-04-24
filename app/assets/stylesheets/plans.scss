@@ -1,4 +1,30 @@
 // Place all the styles related to the Plans controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
-header { background-color: #00BFFF;}
+    header {
+        background-color: #00BFFF;
+    }
+    
+    
+    div.plans {
+        h1 {
+            font-size: 14pt;
+            padding: 10px;
+        }
+
+        th {
+            border-radius: 0px;
+            text-align: center;
+            font-family: sans-serif;
+            padding-top: 5px;
+        }
+    
+        td {
+            background: none;
+        }
+
+        a {
+            font-family: sans-serif;
+        }
+    
+    }
