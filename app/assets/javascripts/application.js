@@ -17,12 +17,13 @@
 //= require turbolinks
 //= require_tree .
 
+// Populate the page and create the table when the page is loaded
+// Between the two of these, one should work...
 $( document ).ready(function() {
-    console.log("document ready");
     populatePage();
+    createTable();
 });
-
 $(document).on('turbolinks:load', function() {
-    console.log("turbolinks load");
     populatePage();
+    createTable();
 });
