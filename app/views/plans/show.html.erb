@@ -18,7 +18,7 @@
 <% end %>-->
 <head>
 		<link rel="icon" type="image/gif" href="http://i140.photobucket.com/albums/r14/lmnopart/Pixel/apesit.gif"/>
-		<!--<link type="text/css" rel="stylesheet" href="ape.css" />-->
+		<link type="text/css" rel="stylesheet" href="ape.css" />
 		<link href="https://fonts.googleapis.com/css?family=Gloria+Hallelujah" rel="stylesheet">
 		<meta name="author" content="Ann Costantino">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,52 +26,79 @@
 		
 		<link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 		<link href='http://fonts.googleapis.com/css?family=Rosario:400,700' rel='stylesheet' type='text/css'>
-		<!--<link rel="stylesheet" type="text/css" href="pushmenu.css" />-->
-		<!--<link rel="stylesheet" href="jquery-ui.css">-->
+		<link rel="stylesheet" type="text/css" href="pushmenu.css" />
+		<link rel="stylesheet" href="jquery-ui.css">
 		
 	
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 		
 		
-		<!--<script src="pushmenu.js">
+		<script src="pushmenu.js">
 		/***********************************************
 		* Side Push Menu- (c) Dynamic Drive DHTML code library (www.dynamicdrive.com)
 		* Please keep this notice intact
 		* Visit Dynamic Drive at http://www.dynamicdrive.com/ for this script and 100s more
-		***********************************************/-->
+		***********************************************/
 		</script>
 		
 		<script>
 
-			var CurrentPlan;  
-
-			$.getJSON('/plans/<%= @id %>.json', function(data) {
-			CurrentPlan = new plan(data.name, data.currYear, data.major, data.student, data.currTerm);
-		
-		
-			for(let term of data.terms){
-				for(let course of term.courses){
-					CurrentPlan.addClass(course.semester, course.year, course.cid, course.name, course.credits);
-				}
-			}
-		
-			});
-			var today = new Date();
-			var fallClass;
-			var springClass;
-			var summerClass;
+			//var CurrentPlan;  
+			//
+			//$.getJSON('/plans/<%= @id %>.json', function(data) {
+			//CurrentPlan = new plan(data.name, data.currYear, data.major, data.student, data.currTerm);
+			//
+			//
+			//for(let term of data.terms){
+			//	for(let course of term.courses){
+			//		CurrentPlan.addClass(course.semester, course.year, course.cid, course.name, course.credits);
+			//	}
+			//}
+			//
+			//});
+			//var today = new Date();
+			//var fallClass;
+			//var springClass;
+			//var summerClass;
 			
 		
-
+        var CurrentPlan; 
 
 //main function
 function populatePage(){
 	
-	//Step 2. Re-organize by Year
-	CurrentPlan.convertToYear();
+	//var CurrentPlan;  
+
+	$.getJSON('/plans/<%= @id %>.json', function(data) {
+		CurrentPlan = new plan(data.name, data.currYear, data.major, data.student, data.currTerm);
 	
-	//Step 3. Populate page with divs holding the data
-	CurrentPlan.printData();
+		console.log("Current plan before for loop ");
+		console.log(CurrentPlan);
+	
+		for(let term of data.terms){
+			for(let course of term.courses){
+				CurrentPlan.addClass(course.semester, course.year, course.cid, course.name, course.credits);
+			}
+		}
+
+		console.log("Current plan after for loop ");
+		console.log(CurrentPlan);
+		
+		
+		var today = new Date();
+		var fallClass;
+		var springClass;
+		var summerClass;
+		
+		
+		
+		//Step 2. Re-organize by Year
+		CurrentPlan.convertToYear();
+		
+		//Step 3. Populate page with divs holding the data
+		CurrentPlan.printData();
+	});
+	
 }
 
 
@@ -329,8 +356,9 @@ checkDate = function(year) {
 		</script>
 		
 	</head>
+	<!--<body onload="populatePage(); createTable();">-->
+	<body>
 
-	<body onload="populatePage(); createTable();">
 		<!--HEADER THING-->
 		<div id="pushcontentwrapper">
 			

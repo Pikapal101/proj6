@@ -17,3 +17,12 @@
 //= require turbolinks
 //= require_tree .
 
+$( document ).ready(function() {
+    console.log("document ready");
+    populatePage();
+});
+
+$(document).on('turbolinks:load', function() {
+    console.log("turbolinks load");
+    populatePage();
+});
