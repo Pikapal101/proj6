@@ -146,7 +146,7 @@
 		
 		plan.prototype.printData = function(){
 			//TODO: Print the data structure in the UR div
-			var html = "<table>";
+			var html = "<table id='planTable'>";
 			for(key in CurrentPlan.years){
 				var curYear = this.years[key].currentYear;
 				//Check to see if year is history or current
@@ -207,28 +207,57 @@
 			spring = new Date("1/10/" + (parseInt(year) + 1));
 			summer = new Date("5/29/" + (parseInt(year) + 1));
 			
-			if(fall < today){
+			if(fall < today) {
 					fallClass = "history";
 			}
-			else{
+			else {
 					fallClass = "current";
 			}
 			
 			if(spring < today){
 				springClass = "history";
 			}
-			else{
+			else {
 				springClass = "current";
 			}
 			
-			if(summer < today){
+			if(summer < today) {
 				summerClass = "history";
 			}
-			else{
+			else {
 				summerClass = "current";
 			}
 		};
-				
+		
+		// Happy new year!
+		plan.prototype.addYear = function() {
+			
+			// get the last year and add to it
+			var currentYear = CurrentPlan.years[Object.keys(CurrentPlan.years)[Object.keys(CurrentPlan.years).length-1]].currentYear;
+			var newYear = currentYear + 1;
+			
+			console.log(newYear);
+			
+			console.log("add year");
+			newYear = "<tr>" +
+					"<th>Fall " + newYear + "</th>" +
+					"<th>Spring " +(newYear + 1) + "</th>" +
+					"<th>Summer " + (newYear + 1) + "</th>" +
+				  "</tr>" +
+				  "<tr>" +
+					"<td><ul></ul></td>" +
+					"<td><ul></ul></td>" +
+					"<td><ul></ul></td>" +
+				   "</tr>";
+			$("#planTable").append(newYear);
+		};
+		
+		removeYear = function() {
+			console.log("remove year");
+			$('#planTable tr:last').remove();
+			$('#planTable tr:last').remove();
+		};
+		
 	</script>
 			
 	<script>
@@ -404,8 +433,8 @@
 	
 	<div id="R">
 		<div id="UR">
-			<div id="addYear">Add Year</div>
-			<div id="removeYear">Remove Year</div>
+			<div id="addYear" onclick="plan.prototype.addYear()">Add Year</div>
+			<div id="removeYear" onclick="removeYear()">Remove Last Year</div>
 		</div>
 		<div id="LR">
 			<!--Search bar-->
