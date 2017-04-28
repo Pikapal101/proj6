@@ -264,6 +264,7 @@ checkDate = function(year) {
 			}	
 			
 			CA.printTable();
+			CA.printAccordion();
 		});
 		
 		
@@ -282,6 +283,41 @@ checkDate = function(year) {
 	courseArray.prototype.addCourse = function(courseNumber, courseName, courseDes, cred){
 		this.courses[courseNumber] = new tableCourse(courseNumber, courseName, courseDes, cred);
 	};
+	//New accordion 
+	courseArray.prototype.printAccordion = function(){
+			var html = "<h3>JUST MONKEYING AROUND WITH PRE-REQUISITES</h3><div id=\"accordion\">";
+			html += "<h3>Gen Eds</h3>";
+			html += "<div>";
+			for(var key3 in CA.courses){
+				if(CA.courses[key3].courseNumber.match(/gen/gi)){
+					html+= CA.courses[key3].courseName + "</br>";
+				}
+			}
+			html += "</div>";
+			html += "<h3>Track</h3>";
+			html += "<div>";
+			for(var key4 in CA.courses){
+				//your major two nums
+				if(CA.courses[key4].courseNumber.match(/cs-[0-9][0-9]$/gi)){
+					html += CA.courses[key4].courseName + "</br>";
+				}
+			}
+			html += "</div>";
+			html += "<h3>Core</h3>";
+			html += "<div>";
+			for(var key5 in CA.courses){
+				//your major three nums
+				if(CA.courses[key5].courseNumber.match(/cs-[0-9][0-9][0-9]$/gi)){
+					html += CA.courses[key5].courseName + "</br>";
+				}
+			}
+			html += "</div></div>";
+			document.getElementById('UL').innerHTML = html;
+			
+			$( function() {
+				$( "#accordion" ).accordion();
+			} );
+		};
 
 	courseArray.prototype.printTable = function(){
 		var html = "<input type=\"text\" id=\"tableInput\" onkeyup=\"filterTable()\" placeholder=\"Find the right Banana (Course)\">";
@@ -349,14 +385,8 @@ checkDate = function(year) {
 		<!-- Accordion-->
 		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-		<script>
-			$( function() {
-				$( "#accordion" ).accordion();
-			} );
-		</script>
 		
 	</head>
-	<!--<body onload="populatePage(); createTable();">-->
 	<body>
 
 		<!--HEADER THING-->
@@ -393,9 +423,9 @@ checkDate = function(year) {
 
 				
 				<div id="UL">
-				<!--Accordion-->
+				<!--Accordion
 					<h1> JUST MONKEYING AROUND WITH PRE REQUISITES</h1>
-					<!--<img src="monkeys.jpg" id="PREREQ" alt="monkey photo: monkeys.jpg">-->
+					<img src="monkeys.jpg" id="PREREQ" alt="monkey photo: monkeys.jpg">
 						<div id="accordion">
 						<h3>Gen Eds</h3>
 						<div>
@@ -413,7 +443,7 @@ checkDate = function(year) {
 						  <p>Stuff 2</p>
 						  <p>Stuff 3</p>
 						</div>
-						</div> 
+						</div>-->
 				</div>
 				<div id="LL">
 					<a href="http://photobucket.com/images/ape%20pixel" target="_blank">
