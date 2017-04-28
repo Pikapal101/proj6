@@ -208,10 +208,10 @@
 			summer = new Date("5/29/" + (parseInt(year) + 1));
 			
 			if(fall < today) {
-					fallClass = "history";
+				fallClass = "history";
 			}
 			else {
-					fallClass = "current";
+				fallClass = "current";
 			}
 			
 			if(spring < today){
@@ -236,26 +236,42 @@
 			var currentYear = CurrentPlan.years[Object.keys(CurrentPlan.years)[Object.keys(CurrentPlan.years).length-1]].currentYear;
 			var newYear = currentYear + 1;
 			
-			console.log(newYear);
+			// Add the new year to the object
+			if(!CurrentPlan.years[newYear]){
+				CurrentPlan.years[newYear] = new year(newYear);
+			}
 			
-			console.log("add year");
+			// See if the new year has passed...it won't have? This applies the right classes though
+			checkDate(newYear);
+
+			// Create the html for the new year
 			newYear = "<tr>" +
-					"<th>Fall " + newYear + "</th>" +
-					"<th>Spring " +(newYear + 1) + "</th>" +
-					"<th>Summer " + (newYear + 1) + "</th>" +
+					"<th class='" + fallClass + "'>Fall " + newYear + "</th>" +
+					"<th class='" + springClass + "'>Spring " +(newYear + 1) + "</th>" +
+					"<th class='" + summerClass + "'>Summer " + (newYear + 1) + "</th>" +
 				  "</tr>" +
 				  "<tr>" +
-					"<td><ul></ul></td>" +
-					"<td><ul></ul></td>" +
-					"<td><ul></ul></td>" +
+					"<td class='" + fallClass + "'><ul></ul></td>" +
+					"<td class='" + springClass + "'><ul></ul></td>" +
+					"<td class='" + summerClass + "'><ul></ul></td>" +
 				   "</tr>";
+				   
+			// append the new year to the table
 			$("#planTable").append(newYear);
 		};
 		
-		removeYear = function() {
+		plan.prototype.removeYear = function() {
 			console.log("remove year");
+			
+			// remove the html element
 			$('#planTable tr:last').remove();
 			$('#planTable tr:last').remove();
+			
+			// get the last year
+			var currentYear = CurrentPlan.years[Object.keys(CurrentPlan.years)[Object.keys(CurrentPlan.years).length-1]].currentYear;
+			
+			// delete the last year from the object
+			delete CurrentPlan.years[currentYear];
 		};
 		
 	</script>
@@ -434,7 +450,7 @@
 	<div id="R">
 		<div id="UR">
 			<div id="addYear" onclick="plan.prototype.addYear()">Add Year</div>
-			<div id="removeYear" onclick="removeYear()">Remove Last Year</div>
+			<div id="removeYear" onclick="plan.prototype.removeYear()">Remove Last Year</div>
 		</div>
 		<div id="LR">
 			<!--Search bar-->
