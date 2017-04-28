@@ -20,7 +20,7 @@ user2.password_confirmation = "password"
 user2.save!
 
 #give joe a couple of plans
-plans = Plan.create([{user_id: user1.id, name: "Plan1", currYear: 2017, major: "CS", student: user1.login, currTerm:"Spring"}, {user_id: user1.id, name: "Plan2", currYear: 2017, major: "Marketing", student: user1.login, currTerm:"Spring"}])
+plans = Plan.create([{user_id: user1.id, name: "Plan1", currYear: 2017, major: "CS", student: user1.login, currTerm:"Spring"}, {user_id: user1.id, name: "Plan2", currYear: 2017, major: "Math", student: user1.login, currTerm:"Spring"}])
 
 #add terms to plans
 terms = Term.create([{plan: plans.first, semester: "Fall", year: 2017}, {plan: plans.first, semester: "Spring", year: 2017}, {plan: plans.first, semester: "Summer", year: 2017}, {plan: plans.first, semester: "Fall", year: 2018}, {plan: plans.first, semester: "Spring", year: 2018}, {plan: plans.first, semester: "Summer", year: 2018}, {plan: plans.first, semester: "Fall", year: 2019}, {plan: plans.first, semester: "Spring", year: 2019}, {plan: plans.second, semester: "Fall", year: 2017}, {plan: plans.second, semester: "Spring", year: 2017}, {plan: plans.second, semester: "Fall", year: 2018}, {plan: plans.second, semester: "Spring", year: 2018}, {plan: plans.second, semester: "Fall", year: 2019}, {plan: plans.second, semester: "Spring", year: 2019}])
