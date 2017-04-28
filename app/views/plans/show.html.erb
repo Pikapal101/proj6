@@ -199,8 +199,15 @@
 			
 			$("#UR").prepend(html);
 			
+<<<<<<< HEAD
 			//document.getElementById('UR').innerHTML = html;
 		};
+=======
+			CA.printTable();
+			CA.printAccordion();
+		});
+		
+>>>>>>> master
 		
 		checkDate = function(year) {
 			fall = new Date("8/23/" + year);
@@ -229,6 +236,7 @@
 			}
 		};
 		
+<<<<<<< HEAD
 		// Happy new year!
 		plan.prototype.addYear = function() {
 			
@@ -243,6 +251,81 @@
 			
 			// See if the new year has passed...it won't have? This applies the right classes though
 			checkDate(newYear);
+=======
+	}
+
+	function courseArray(){
+		this.courses = {};
+	};
+	function tableCourse(courseNumber, courseName, courseDes, cred){
+		this.courseNumber = courseNumber;
+		this.courseName = courseName;
+		this.courseDes = courseDes;
+		this.cred = cred;
+	};
+	courseArray.prototype.addCourse = function(courseNumber, courseName, courseDes, cred){
+		this.courses[courseNumber] = new tableCourse(courseNumber, courseName, courseDes, cred);
+	};
+	//New accordion 
+	courseArray.prototype.printAccordion = function(){
+			var html = "<h3>JUST MONKEYING AROUND WITH PRE-REQUISITES</h3><div id=\"accordion\">";
+			html += "<h3>Gen Eds</h3>";
+			html += "<div>";
+			for(var key3 in CA.courses){
+				if(CA.courses[key3].courseNumber.match(/gen/gi)){
+					html+= CA.courses[key3].courseName + "</br>";
+				}
+			}
+			html += "</div>";
+			html += "<h3>Track</h3>";
+			html += "<div>";
+			for(var key4 in CA.courses){
+				//your major two nums
+				if(CA.courses[key4].courseNumber.match(/cs-[0-9][0-9]$/gi)){
+					html += CA.courses[key4].courseName + "</br>";
+				}
+			}
+			html += "</div>";
+			html += "<h3>Core</h3>";
+			html += "<div>";
+			for(var key5 in CA.courses){
+				//your major three nums
+				if(CA.courses[key5].courseNumber.match(/cs-[0-9][0-9][0-9]$/gi)){
+					html += CA.courses[key5].courseName + "</br>";
+				}
+			}
+			html += "</div></div>";
+			document.getElementById('UL').innerHTML = html;
+			
+			$( function() {
+				$( "#accordion" ).accordion();
+			} );
+		};
+
+	courseArray.prototype.printTable = function(){
+		var html = "<input type=\"text\" id=\"tableInput\" onkeyup=\"filterTable()\" placeholder=\"Find the right Banana (Course)\">";
+		html += "<table id=\"searchTable\">";
+		html += "<tr class=\"header\">";
+		html+= "<th>Course ID</th>" + "<th>Name</th>" +"<th>Credits</th>" ;
+		html+= "</tr>";
+	for(var key2 in CA.courses){
+		html+="<tr>";
+		html+= "<td>"+CA.courses[key2].courseNumber+"</td>" + "<td>"+CA.courses[key2].courseName+"</td>" + "<td>"+CA.courses[key2].cred+"</td>";
+		html+="</tr>";
+	}
+	html += "</table>";
+	
+	document.getElementById('LR').innerHTML = html;
+};
+
+	function filterTable(){
+	// Declare variables 
+	var input, filter, table, tr, td, i;
+	input = document.getElementById("tableInput");
+	filter = input.value.toUpperCase();
+	table = document.getElementById("searchTable");
+	tr = table.getElementsByTagName("tr");
+>>>>>>> master
 
 			// Create the html for the new year
 			newYear = "<tr>" +
@@ -366,6 +449,7 @@
 				}
 			});
 		
+<<<<<<< HEAD
 		});
 	
 	</script>
@@ -382,6 +466,14 @@
 </head>
 	<!--<body onload="populatePage(); createTable();">-->
 <body>
+=======
+		<!-- Accordion-->
+		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+		
+	</head>
+	<body>
+>>>>>>> master
 
 	<!--HEADER THING-->
 	<div id="pushcontentwrapper">
@@ -412,6 +504,7 @@
 	
 	</div>
 
+<<<<<<< HEAD
 	<!--FOUR DIVS-->	
 	<div id="L">	
 		<div id="UL">
@@ -422,6 +515,31 @@
 				<h3>Gen Eds</h3>
 				<div>
 				  <p>Gen. Psych! x3</p>
+=======
+				
+				<div id="UL">
+				<!--Accordion
+					<h1> JUST MONKEYING AROUND WITH PRE REQUISITES</h1>
+					<img src="monkeys.jpg" id="PREREQ" alt="monkey photo: monkeys.jpg">
+						<div id="accordion">
+						<h3>Gen Eds</h3>
+						<div>
+						  <p>Gen. Psych! x3</p>
+						</div>
+						<h3>Track</h3>
+						<div>
+						  <p>Linux Programming</p>
+						  <p>Cyber Operations</p>
+						  <p>Software Security</p>
+						</div>
+						<h3>Core</h3>
+						<div>
+						  <p>Stuff 1</p>
+						  <p>Stuff 2</p>
+						  <p>Stuff 3</p>
+						</div>
+						</div>-->
+>>>>>>> master
 				</div>
 				<h3>Track</h3>
 				<div>
