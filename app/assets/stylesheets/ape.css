@@ -48,6 +48,7 @@ table{
 	background-color: #FAD64E;
 	float:  left;
 	margin-top: 0px;
+	overflow-y: scroll;
 }
 #UR{
 	height: 75%;
