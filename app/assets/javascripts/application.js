@@ -19,10 +19,10 @@
 
 // Populate the page and create the table when the page is loaded
 // Between the two of these, one should work...
-$( document ).ready(function() {
-    populatePage();
-    createTable();
-});
+//$( document ).ready(function() {
+//    populatePage();
+//    createTable();
+//});
 $(document).on('turbolinks:load', function() {
     populatePage();
     createTable();
