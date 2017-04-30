@@ -229,3 +229,7 @@ select{
     padding: 10px;
 }
 
+a.closebutton:hover {
+	color: red;
+	background:  none;
+}
