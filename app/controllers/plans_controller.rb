@@ -27,7 +27,9 @@ class PlansController < ApplicationController
   end
   
   def removecourse
-  
+    @term = Term.where(plan: @plan, semester: params[:semester], year: params[:year])
+    @termcourse = TermCourse.where(term: @term, course: @course)
+    TermCourse.delete(@termcourse)
   end
 
   # GET /plans/1/edit
