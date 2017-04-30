@@ -19,6 +19,14 @@ class PlansController < ApplicationController
   def new
     @plan = Plan.new
   end
+  
+  def addcourse
+    
+  end
+  
+  def removecourse
+    
+  end
 
   # GET /plans/1/edit
   def edit
