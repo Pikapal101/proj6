@@ -43,11 +43,13 @@
 		
 		<script>
 
-		function removeClass(itemID){
-			//Maybe I can get the table instead?  Ask Dan
+		function removeClass(itemID, year, term, courseID){
+			//Should probably pass the requirements of year, term and course ID so we can delete from database
 			var table = document.getElementById('#ty');
 			var item = document.getElementById(itemID);
 			$('#' + itemID).remove();
+			//Call remove for the ruby here?
+			console.log("Year: " + year + " Term: " + term + " CourseID: " + courseID);
 		}
 		
         var CurrentPlan; 
@@ -174,7 +176,7 @@ plan.prototype.printData = function(){
 					var idFall = this.years[key].fall[FA].courseNumber;
 					var nameFall = this.years[key].fall[FA].courseName;
 					//This creates a class list elment with unique id and then creates a remove button that will remove said class with the unique id assigned
-					html+="<li id='" +curYear+ "Fall" + idFall + "'>" + idFall  + ": " + nameFall + "<a class=\"closebutton\" href=\"javascript:removeClass('"+curYear+ "Fall" + idFall + "')\">        [X]</a></li>";
+					html+="<li id='" +curYear+ "Fall" + idFall + "'>" + idFall  + ": " + nameFall + "<a class=\"closebutton\" href=\"javascript:removeClass('"+curYear+ "Fall" + idFall+ "'" + "," + "'" + curYear + "'" + ",'Fall'," + "'" + idFall + "')\">        [X]</a></li>";
 				}
 				html+="</ul>";
 				html+="</td>";
@@ -185,7 +187,7 @@ plan.prototype.printData = function(){
 				for(SP in CurrentPlan.years[key].spring){
 					var idSpring = this.years[key].spring[SP].courseNumber;
 					var nameSpring = this.years[key].spring[SP].courseName;
-					html+="<li id='" +curYear+ "Spring" + idSpring + "'>" + idSpring  + ": " + nameSpring + "<a class=\"closebutton\" href=\"javascript:removeClass('"+curYear+ "Spring" + idSpring + "')\">        [X]</a></li>";
+					html+="<li id='" +curYear+ "Spring" + idSpring + "'>" + idSpring  + ": " + nameSpring + "<a class=\"closebutton\" href=\"javascript:removeClass('"+curYear+ "Spring" + idSpring + "'" + "," + "'" + curYear + "'" + ",'Spring'," + "'" + idSpring + "')\">        [X]</a></li>";
 				}
 				html+="</ul>";
 				html+="</td>";
@@ -196,7 +198,7 @@ plan.prototype.printData = function(){
 				for(SU in CurrentPlan.years[key].summer){
 					var idSummer = this.years[key].summer[SU].courseNumber;
 					var nameSummer = this.years[key].summer[SU].courseName;
-					html+="<li id='" +curYear+ "Summer" + idSummer + "'>" + idSummer  + ": " + nameSummer + "<a class=\"closebutton\" href=\"javascript:removeClass('"+curYear+ "Summer" + idSummer + "')\">        [X]</a></li>";
+					html+="<li id='" +curYear+ "Summer" + idSummer + "'>" + idSummer  + ": " + nameSummer + "<a class=\"closebutton\" href=\"javascript:removeClass('"+curYear+ "Summer" + idSummer + "'" + "," + "'" + curYear + "'" + ",'Summer'," + "'" + idSummer + "')\">        [X]</a></li>";
 				}
 				html+="</ul>";
 				html+="</td>";
