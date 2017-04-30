@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
 	root 'plans#index'
-	match '/plans/:plan_id/addcourse/:id', to: 'plan#addcourse', via: [:post]
-	match '/plans/:plan_id/removecourse/:id', to: 'plan#removecourse', via: [:post]
+	post '/plans/:plan_id/addcourse/:id(.:format)' => 'plan#addcourse'
+	post '/plans/:plan_id/removecourse/:id(.:format)' => 'plan#removecourse'
   resources :courses
   resources :plans
   devise_for :users, :controllers => {:registrations => 'registrations'}

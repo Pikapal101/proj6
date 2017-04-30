@@ -50,6 +50,21 @@
 			$('#' + itemID).remove();
 			//Call remove for the ruby here?
 			console.log("Year: " + year + " Term: " + term + " CourseID: " + courseID);
+			$.ajax({
+				url:'/plans/<%= @id %>/removecourse/' + courseID + '.json',
+				type:'POST',
+				dataType:'json',
+				data:{
+					semester: term,
+					year: year,
+				},
+				success:function(data){
+					console.log("YAY");
+				},
+				error:function(data){
+					console.log("BOO");
+				}
+			});
 		}
 		
         var CurrentPlan; 
