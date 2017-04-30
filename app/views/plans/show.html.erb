@@ -51,7 +51,7 @@
 			//Call remove for the ruby here?
 			console.log("Year: " + year + " Term: " + term + " CourseID: " + courseID);
 			$.ajax({
-				url:'/plans/<%= @id %>/removecourse/' + courseID + '.json',
+				url:'/plans/<%= @id %>/removecourse/' + courseID,
 				type:'POST',
 				dataType:'json',
 				data:{
