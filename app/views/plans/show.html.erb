@@ -50,6 +50,21 @@
 			$('#' + itemID).remove();
 			//Call remove for the ruby here?
 			console.log("Year: " + year + " Term: " + term + " CourseID: " + courseID);
+			$.ajax({
+				url:'/plans/<%= @id %>/removecourse/' + courseID + '.json',
+				type:'POST',
+				dataType:'json',
+				data:{
+					semester: term,
+					year: year,
+				},
+				success:function(data){
+					console.log("YAY");
+				},
+				error:function(data){
+					console.log("BOO");
+				}
+			});
 		}
 		
         var CurrentPlan; 
@@ -414,27 +429,6 @@ checkDate = function(year) {
 
 				
 				<div id="UL">
-				<!--Accordion
-					<h1> JUST MONKEYING AROUND WITH PRE REQUISITES</h1>
-					<img src="monkeys.jpg" id="PREREQ" alt="monkey photo: monkeys.jpg">
-						<div id="accordion">
-						<h3>Gen Eds</h3>
-						<div>
-						  <p>Gen. Psych! x3</p>
-						</div>
-						<h3>Track</h3>
-						<div>
-						  <p>Linux Programming</p>
-						  <p>Cyber Operations</p>
-						  <p>Software Security</p>
-						</div>
-						<h3>Core</h3>
-						<div>
-						  <p>Stuff 1</p>
-						  <p>Stuff 2</p>
-						  <p>Stuff 3</p>
-						</div>
-						</div>-->
 				</div>
 				<div id="LL">
 					<a href="http://photobucket.com/images/ape%20pixel" target="_blank">

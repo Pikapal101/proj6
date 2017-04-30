@@ -1,5 +1,6 @@
 class PlansController < ApplicationController
   before_action :set_plan, only: [:show, :edit, :update, :destroy]
+  before_action :set_plan_course, only: [:addcourse, :removecourse]
 
   # GET /plans
   # GET /plans.json
@@ -18,6 +19,16 @@ class PlansController < ApplicationController
   # GET /plans/new
   def new
     @plan = Plan.new
+  end
+  
+  def addcourse
+  
+  end
+  
+  def removecourse
+   #respond_to do |format|
+    # format.html{}
+   #end
   end
 
   # GET /plans/1/edit
@@ -69,7 +80,10 @@ class PlansController < ApplicationController
     def set_plan
       @plan = Plan.find(params[:id])
     end
-
+    def set_plan_course
+      @plan = Plan.find(params[:plan_id])
+      @course = Course.find(params[:id])
+    end
     # Never trust parameters from the scary internet, only allow the white list through.
     def plan_params
       params.require(:plan).permit(:name, :user_id)
