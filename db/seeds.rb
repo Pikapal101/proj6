@@ -19,8 +19,16 @@ user2.password = "password"
 user2.password_confirmation = "password"
 user2.save!
 
+user3 = User.new
+user3.login = "admin"
+user3.email = "admin@cedarville.edu"
+user3.password = "password"
+user3.password_confirmation = "password"
+user3.admin = true
+user3.save!
+
 #give joe a couple of plans
-plans = Plan.create([{user_id: user1.id, name: "Plan1", currYear: 2017, major: "CS", student: user1.login, currTerm:"Spring"}, {user_id: user1.id, name: "Plan2", currYear: 2017, major: "Math", student: user1.login, currTerm:"Spring"}])
+plans = Plan.create([{user_id: user1.id, name: "Plan1", currYear: 2017, major: "CS", student: user1.login, currTerm:"Spring"}, {user_id: user1.id, name: "Plan2", currYear: 2017, major: "Math", student: user1.login, currTerm:"Spring"}, {user_id: user2.id, name: "Pete's Plan", currYear: 2017, major: "Physics", student: user2.login, currTerm: "Spring"}])
 
 #add terms to plans
 terms = Term.create([{plan: plans.first, semester: "Fall", year: 2017}, {plan: plans.first, semester: "Spring", year: 2017}, {plan: plans.first, semester: "Summer", year: 2017}, {plan: plans.first, semester: "Fall", year: 2018}, {plan: plans.first, semester: "Spring", year: 2018}, {plan: plans.first, semester: "Summer", year: 2018}, {plan: plans.first, semester: "Fall", year: 2019}, {plan: plans.first, semester: "Spring", year: 2019}, {plan: plans.second, semester: "Fall", year: 2017}, {plan: plans.second, semester: "Spring", year: 2017}, {plan: plans.second, semester: "Fall", year: 2018}, {plan: plans.second, semester: "Spring", year: 2018}, {plan: plans.second, semester: "Fall", year: 2019}, {plan: plans.second, semester: "Spring", year: 2019}])
