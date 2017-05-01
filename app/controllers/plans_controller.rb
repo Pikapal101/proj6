@@ -23,13 +23,13 @@ class PlansController < ApplicationController
   end
   
   def addcourse
-    @term = Term.where(plan: @plan, semester: params[:semester], year: params[:year])
+    @term = Term.find_by(plan: @plan.id, semester: params[:semester], year: params[:year])
     TermCourse.create(term: @term, course: @course)
   end
   
   def removecourse
-    @term = Term.where(plan: @plan, semester: params[:semester], year: params[:year])
-    @termcourse = TermCourse.where(term: @term, course: @course)
+    @term = Term.find_by(plan: @plan.id, semester: params[:semester], year: params[:year])
+    @termcourse = TermCourse.find_by(term: @term, course: @course)
     TermCourse.delete(@termcourse)
   end
 
@@ -84,7 +84,7 @@ class PlansController < ApplicationController
     end
     def set_plan_course
       @plan = Plan.find(params[:plan_id])
-      @course = Course.where(cid: params[:id])
+      @course = Course.find_by(cid: params[:id])
     end
     # Never trust parameters from the scary internet, only allow the white list through.
     def plan_params
