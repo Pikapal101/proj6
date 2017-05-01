@@ -5,14 +5,24 @@
   <table>
     <thead>
       <tr>
+        <% if current_user.admin? %>
+            <th>Student</th>
+          <% end %>
         <th>Name</th>
         <th colspan="3">Actions</th>
       </tr>
     </thead>
   
     <tbody>
+       <% if current_user.admin? %>
+          <% @plans = Plan.all %>
+        <% end %>  
+         
       <% @plans.each do |plan| %>
         <tr>
+           <% if current_user.admin? %>
+              <td><%= plan.student %></td>
+           <% end %>  
           <td><%= plan.name %></td>
           <td><%= link_to 'Show', plan %></td>
           <td><%= link_to 'Edit', edit_plan_path(plan) %></td>
