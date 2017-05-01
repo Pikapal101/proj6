@@ -34,7 +34,14 @@ class PlansController < ApplicationController
   end
   
   def addyear
-    Term.create([{plan: @plan, semester: "Fall", year: params[:year]}, {plan: @plan, semester: "Spring", year: params[:year]}, {plan: @plan, semester: "Summer", year: params[:year]}])
+    @term = Term.exists?(plan: @plan, year: params[:year])
+    if @term
+      puts "Not added"
+      puts @term
+    else
+      Term.create([{plan: @plan, semester: "Fall", year: params[:year]}, {plan: @plan, semester: "Spring", year: params[:year]}, {plan: @plan, semester: "Summer", year: params[:year]}])
+
+    end
     #Term.new()
     #Term.new(plan: @plan, semester: "Summer", year: params[:year])
   end
