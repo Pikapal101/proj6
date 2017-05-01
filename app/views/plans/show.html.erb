@@ -48,7 +48,13 @@
 				var elem = document.getElementById("courses");
 				var courseID = elem.options[elem.selectedIndex].value;
 					var sem = $("#semester").val();
-					var yr = $("#year").val();
+					var yr;
+					if(sem == "Spring" || sem == "Summer"){
+						yr = $("#year").val() -1;
+					}
+					else{
+						yr = $("#year").val();
+					}
 					$.ajax({
 						url: '/plans/<%= @id %>/addcourse/' + courseID,
 						type: 'POST',
