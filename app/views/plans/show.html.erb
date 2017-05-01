@@ -45,20 +45,23 @@
 		<!--Ajax call for add class on submit-->
 		<script>
 			function addClass(){
-				console.log("Hi");
 				var elem = document.getElementById("courses");
 				var courseID = elem.options[elem.selectedIndex].value;
-				console.log("Hi2");
-					var url = "/plans/<%= @id %>/addcourse/" + courseID;
+					var sem = $("#semester").val();
+					var yr = $("#year").val();
 					$.ajax({
-						type: "POST",
-						url: url,
-						data: $("#add").serialize(),
+						url: '/plans/<%= @id %>/addcourse/' + courseID,
+						type: 'POST',
+						data:{
+							semester: sem,
+							year: yr,
+						},
 						success: function(data){
 							console.log("added course");
 						},
 						error: function(data){
-							console.log(data);
+							console.log(sem);
+							console.log(yr);
 							console.log("error course");
 						}
 						
@@ -466,7 +469,7 @@ checkDate = function(year) {
 					<%= link_to 'Back', plans_path %>
 					
 					<br>
-					<br>
+					<p>ADD A BANANA (COURSE)</p>
 					<form id="add" onsubmit="addClass()">
 						<select id="semester">
 							<% @terms = @plan.terms %>
