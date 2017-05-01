@@ -23,7 +23,8 @@ class PlansController < ApplicationController
   end
   
   def addcourse
-  
+    @term = Term.where(plan: @plan, semester: params[:semester], year: params[:year])
+    TermCourse.create(term: @term, course: @course)
   end
   
   def removecourse

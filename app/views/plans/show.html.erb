@@ -41,6 +41,34 @@
 		<!--***********************************************/-->
 		</script>
 		
+		
+		<!--Ajax call for add class on submit-->
+		<script>
+			function addClass(){
+				console.log("Hi");
+				var elem = document.getElementById("courses");
+				var courseID = elem.options[elem.selectedIndex].value;
+				console.log("Hi2");
+					var url = "/plans/<%= @id %>/addcourse/" + courseID;
+					$.ajax({
+						type: "POST",
+						url: url,
+						data: $("#add").serialize(),
+						success: function(data){
+							console.log("added course");
+						},
+						error: function(data){
+							console.log(data);
+							console.log("error course");
+						}
+						
+					});
+			}	
+		</script>
+		
+		
+		
+		
 		<script>
 
 		function removeClass(itemID, year, term, courseID){
@@ -53,7 +81,6 @@
 			$.ajax({
 				url:'/plans/<%= @id %>/removecourse/' + courseID,
 				type:'POST',
-				dataType:'json',
 				data:{
 					semester: term,
 					year: year,
@@ -437,6 +464,45 @@ checkDate = function(year) {
 					<br>
 					<%= link_to 'Edit', edit_plan_path(@plan) %> |
 					<%= link_to 'Back', plans_path %>
+					
+					<br>
+					<br>
+					<form id="add" onsubmit="addClass()">
+						<select id="semester">
+							<% @terms = @plan.terms %>
+							<% @uniterm = @terms.select("distinct semester").map {|a| a.semester} %>
+							<% @uniterm.each do |term| %>
+							<option value="<%=term%>">
+								<%= term %>
+							</option>
+						<% end %>
+						</select>
+						<br>
+						<select id="year">
+								<% @terms = @plan.terms%>
+								<% @year = @terms.select("distinct year").map {|a| a.year} %>
+								<% @year.each do |year| %>
+								<option value="<%=year.to_s%>">
+									<%=year.to_s %>	
+								</option>
+								<% end %>
+						</select>
+						<br>
+						<select id="courses">
+							<% @courses = Course.all %>
+							<% @courses.each do |course| %>
+							<option value="<%=course.cid%>">
+								<%= course.cid %> : <%= course.name %>
+							</option>
+						<% end %>
+							
+						</select>
+						<br><br>
+						<input type="submit" value="Submit">
+					</form>
+					
+					
+					
 				</div>
 				
 			</div>
