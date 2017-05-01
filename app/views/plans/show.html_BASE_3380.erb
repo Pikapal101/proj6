@@ -41,67 +41,26 @@
 		<!--***********************************************/-->
 		</script>
 		
-		
-		<!--Ajax call for add class on submit-->
-		<script>
-			function addClass(){
-				var elem = document.getElementById("courses");
-				var courseID = elem.options[elem.selectedIndex].value;
-					var sem = $("#semester").val();
-					var yr;
-					if(sem == "Spring" || sem == "Summer"){
-						yr = $("#year").val() -1;
-					}
-					else{
-						yr = $("#year").val();
-					}
-					$.ajax({
-						url: '/plans/<%= @id %>/addcourse/' + courseID,
-						type: 'POST',
-						data:{
-							semester: sem,
-							year: yr,
-						},
-						success: function(data){
-							console.log("added course");
-						},
-						error: function(data){
-							console.log(sem);
-							console.log(yr);
-							console.log("error course");
-						}
-						
-					});
-			}	
-		</script>
-		
-		
-		
-		
 		<script>
 
-		function removeClass(itemID, year, term, courseID){
-			//Should probably pass the requirements of year, term and course ID so we can delete from database
-			var table = document.getElementById('#ty');
-			var item = document.getElementById(itemID);
-			$('#' + itemID).remove();
-			//Call remove for the ruby here?
-			console.log("Year: " + year + " Term: " + term + " CourseID: " + courseID);
-			$.ajax({
-				url:'/plans/<%= @id %>/removecourse/' + courseID,
-				type:'POST',
-				data:{
-					semester: term,
-					year: year,
-				},
-				success:function(data){
-					console.log("YAY");
-				},
-				error:function(data){
-					console.log("BOO");
-				}
-			});
-		}
+			//var CurrentPlan;  
+			//
+			//$.getJSON('/plans/<%= @id %>.json', function(data) {
+			//CurrentPlan = new plan(data.name, data.currYear, data.major, data.student, data.currTerm);
+			//
+			//
+			//for(let term of data.terms){
+			//	for(let course of term.courses){
+			//		CurrentPlan.addClass(course.semester, course.year, course.cid, course.name, course.credits);
+			//	}
+			//}
+			//
+			//});
+			//var today = new Date();
+			//var fallClass;
+			//var springClass;
+			//var summerClass;
+			
 		
         var CurrentPlan; 
 
@@ -206,7 +165,7 @@ plan.prototype.convertToYear = function(){
 
 plan.prototype.printData = function(){
 	//TODO: Print the data structure in the UR div
-	var html = "<table id='ty'>";
+	var html = "<table>";
 	for(key in CurrentPlan.years){
 		var curYear = this.years[key].currentYear;
 		//Check to see if year is history or current
@@ -226,8 +185,7 @@ plan.prototype.printData = function(){
 				for(FA in CurrentPlan.years[key].fall){
 					var idFall = this.years[key].fall[FA].courseNumber;
 					var nameFall = this.years[key].fall[FA].courseName;
-					//This creates a class list elment with unique id and then creates a remove button that will remove said class with the unique id assigned
-					html+="<li id='" +curYear+ "Fall" + idFall + "'>" + idFall  + ": " + nameFall + "<a class=\"closebutton\" href=\"javascript:removeClass('"+curYear+ "Fall" + idFall+ "'" + "," + "'" + curYear + "'" + ",'Fall'," + "'" + idFall + "')\">        [X]</a></li>";
+					html+="<li>" + idFall  + ": " + nameFall + "</li>";
 				}
 				html+="</ul>";
 				html+="</td>";
@@ -238,7 +196,7 @@ plan.prototype.printData = function(){
 				for(SP in CurrentPlan.years[key].spring){
 					var idSpring = this.years[key].spring[SP].courseNumber;
 					var nameSpring = this.years[key].spring[SP].courseName;
-					html+="<li id='" +curYear+ "Spring" + idSpring + "'>" + idSpring  + ": " + nameSpring + "<a class=\"closebutton\" href=\"javascript:removeClass('"+curYear+ "Spring" + idSpring + "'" + "," + "'" + curYear + "'" + ",'Spring'," + "'" + idSpring + "')\">        [X]</a></li>";
+					html+="<li>" + idSpring  + ": " + nameSpring + "</li>";
 				}
 				html+="</ul>";
 				html+="</td>";
@@ -249,7 +207,7 @@ plan.prototype.printData = function(){
 				for(SU in CurrentPlan.years[key].summer){
 					var idSummer = this.years[key].summer[SU].courseNumber;
 					var nameSummer = this.years[key].summer[SU].courseName;
-					html+="<li id='" +curYear+ "Summer" + idSummer + "'>" + idSummer  + ": " + nameSummer + "<a class=\"closebutton\" href=\"javascript:removeClass('"+curYear+ "Summer" + idSummer + "'" + "," + "'" + curYear + "'" + ",'Summer'," + "'" + idSummer + "')\">        [X]</a></li>";
+					html+="<li>" + idSummer  + ": " + nameSummer + "</li>";
 				}
 				html+="</ul>";
 				html+="</td>";
@@ -258,7 +216,7 @@ plan.prototype.printData = function(){
 	}
 	html += "</table>";
 	
-	$("#UR").prepend(html);
+	document.getElementById('UR').innerHTML = html;
 };
 
 checkDate = function(year) {
@@ -287,92 +245,6 @@ checkDate = function(year) {
 		summerClass = "current";
 	}
 };
-			
-		
-		plan.prototype.addYear = function() {
-			
-			console.log(CurrentPlan.years[Object.keys(CurrentPlan.years)[Object.keys(CurrentPlan.years).length-1]].currentYear);
-			
-			// get the last year and add to it
-			var currentYear = CurrentPlan.years[Object.keys(CurrentPlan.years)[Object.keys(CurrentPlan.years).length-1]].currentYear;
-			var newYear = currentYear + 1;
-			
-			// Add the new year to the object
-			if(!CurrentPlan.years[newYear]){
-				CurrentPlan.years[newYear] = new year(newYear);
-			}
-			
-			// See if the new year has passed...it won't have? This applies the right classes though
-			checkDate(newYear);
-			
-			$.ajax({
-				url:'/plans/<%= @id %>/addyear/' + newYear,
-				type:'POST',
-				dataType:'json',
-				data:{
-					year: newYear,
-				},
-				success:function(data){
-					console.log("YAY");
-				},
-				error:function(data){
-					console.log("BOO");
-				}
-			});
-
-			// Create the html for the new year
-			newYear = "<tr>" +
-					"<th class='" + fallClass + "'>Fall " + newYear + "</th>" +
-					"<th class='" + springClass + "'>Spring " +(newYear + 1) + "</th>" +
-					"<th class='" + summerClass + "'>Summer " + (newYear + 1) + "</th>" +
-				  "</tr>" +
-				  "<tr>" +
-					"<td class='" + fallClass + "'><ul></ul></td>" +
-					"<td class='" + springClass + "'><ul></ul></td>" +
-					"<td class='" + summerClass + "'><ul></ul></td>" +
-				   "</tr>";
-				   
-			// append the new year to the table
-			$("#ty").append(newYear);
-			
-			
-		};
-		
-		plan.prototype.removeYear = function() {
-			console.log("remove year");
-			
-			// remove the html element
-			$('#ty tr:last').remove();
-			$('#ty tr:last').remove();
-			
-			// get the last year
-			var currentYear = CurrentPlan.years[Object.keys(CurrentPlan.years)[Object.keys(CurrentPlan.years).length-1]].currentYear;
-			
-			// delete the last year from the object
-			delete CurrentPlan.years[currentYear];
-			
-			//function removeClass(itemID, year, term, courseID){
-			////Should probably pass the requirements of year, term and course ID so we can delete from database
-			//var table = document.getElementById('#ty');
-			//var item = document.getElementById(itemID);
-			//$('#' + itemID).remove();
-			////Call remove for the ruby here?
-			//console.log("Year: " + year + " Term: " + term + " CourseID: " + courseID);
-			$.ajax({
-				url:'/plans/<%= @id %>/removeyear/' + currentYear,
-				type:'POST',
-				dataType:'json',
-				data:{
-					year: currentYear,
-				},
-				success:function(data){
-					console.log("YAY");
-				},
-				error:function(data){
-					console.log("BOO");
-				}
-			});
-		};
 			
 		</script>
 		
@@ -551,6 +423,27 @@ checkDate = function(year) {
 
 				
 				<div id="UL">
+				<!--Accordion
+					<h1> JUST MONKEYING AROUND WITH PRE REQUISITES</h1>
+					<img src="monkeys.jpg" id="PREREQ" alt="monkey photo: monkeys.jpg">
+						<div id="accordion">
+						<h3>Gen Eds</h3>
+						<div>
+						  <p>Gen. Psych! x3</p>
+						</div>
+						<h3>Track</h3>
+						<div>
+						  <p>Linux Programming</p>
+						  <p>Cyber Operations</p>
+						  <p>Software Security</p>
+						</div>
+						<h3>Core</h3>
+						<div>
+						  <p>Stuff 1</p>
+						  <p>Stuff 2</p>
+						  <p>Stuff 3</p>
+						</div>
+						</div>-->
 				</div>
 				<div id="LL">
 					<a href="http://photobucket.com/images/ape%20pixel" target="_blank">
@@ -559,53 +452,11 @@ checkDate = function(year) {
 					<br>
 					<%= link_to 'Edit', edit_plan_path(@plan) %> |
 					<%= link_to 'Back', plans_path %>
-					
-					<br>
-					<p>ADD A BANANA (COURSE)</p>
-					<form id="add" onsubmit="addClass()">
-						<select id="semester">
-							<% @terms = @plan.terms %>
-							<% @uniterm = @terms.select("distinct semester").map {|a| a.semester} %>
-							<% @uniterm.each do |term| %>
-							<option value="<%=term%>">
-								<%= term %>
-							</option>
-						<% end %>
-						</select>
-						<br>
-						<select id="year">
-								<% @terms = @plan.terms%>
-								<% @year = @terms.select("distinct year").map {|a| a.year} %>
-								<% @year.each do |year| %>
-								<option value="<%=year.to_s%>">
-									<%=year.to_s %>	
-								</option>
-								<% end %>
-						</select>
-						<br>
-						<select id="courses">
-							<% @courses = Course.all %>
-							<% @courses.each do |course| %>
-							<option value="<%=course.cid%>">
-								<%= course.cid %> : <%= course.name %>
-							</option>
-						<% end %>
-							
-						</select>
-						<br><br>
-						<input type="submit" value="Submit">
-					</form>
-					
-					
-					
 				</div>
 				
 			</div>
 			<div id="R">
-				<div id="UR">
-					<div id="addYear" onclick="plan.prototype.addYear()">Add Year</div>
-					<div id="removeYear" onclick="plan.prototype.removeYear()">Remove Last Year</div>
-				</div>
+				<div id="UR"></div>
 				<div id="LR">
 					<!--Search bar-->
 				</div>
