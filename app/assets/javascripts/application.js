@@ -19,10 +19,13 @@
 
 // Populate the page and create the table when the page is loaded
 // Between the two of these, one should work...
-$( document ).ready(function() {
-    populatePage();
-    createTable();
-});
+
+//$( document ).ready(function() {
+//    populatePage();
+//    createTable();
+//});
+
+// ebudd 4-28 Update: only use this one. The other is redundant, and causes the table to be duplicated under the current function scheme.
 $(document).on('turbolinks:load', function() {
     populatePage();
     createTable();
