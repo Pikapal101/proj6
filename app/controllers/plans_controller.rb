@@ -1,5 +1,8 @@
 class PlansController < ApplicationController
   before_action :set_plan, only: [:show, :edit, :update, :destroy]
+  before_action :set_plan_course, only: [:addcourse, :removecourse]
+  before_action :set_plan_year, only: [:addyear, :removeyear]
+  skip_before_action :verify_authenticity_token
 
   # GET /plans
   # GET /plans.json
@@ -18,6 +21,29 @@ class PlansController < ApplicationController
   # GET /plans/new
   def new
     @plan = Plan.new
+  end
+  
+  def addcourse
+  
+  end
+  
+  def removecourse
+    @term = Term.where(plan: @plan, semester: params[:semester], year: params[:year])
+    @termcourse = TermCourse.where(term: @term, course: @course)
+    TermCourse.delete(@termcourse)
+  end
+  
+  def addyear
+    Term.create([{plan: @plan, semester: "Fall", year: params[:year]}, {plan: @plan, semester: "Spring", year: params[:year]}, {plan: @plan, semester: "Summer", year: params[:year]}])
+    #Term.new()
+    #Term.new(plan: @plan, semester: "Summer", year: params[:year])
+  end
+  
+  
+  def removeyear
+    @year = Term.where(plan: @plan, year: params[:id])
+    # @termcourse = TermCourse.where(term: @term, course: @course)
+    Term.delete(@year)
   end
 
   # GET /plans/1/edit
@@ -69,7 +95,15 @@ class PlansController < ApplicationController
     def set_plan
       @plan = Plan.find(params[:id])
     end
-
+    def set_plan_course
+      @plan = Plan.find(params[:plan_id])
+      @course = Course.where(cid: params[:id])
+    end
+    
+    def set_plan_year
+      @plan = Plan.find(params[:plan_id])
+    end
+    
     # Never trust parameters from the scary internet, only allow the white list through.
     def plan_params
       params.require(:plan).permit(:name, :user_id)

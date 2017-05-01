@@ -48,7 +48,7 @@ table{
 	background-color: #FAD64E;
 	float:  left;
 	margin-top: 0px;
-	overflow-y: scroll;
+	/*overflow-y: scroll;*/
 }
 #UR{
 	height: 75%;
@@ -229,3 +229,7 @@ select{
     padding: 10px;
 }
 
+a.closebutton:hover {
+	color: red;
+	background:  none;
+}

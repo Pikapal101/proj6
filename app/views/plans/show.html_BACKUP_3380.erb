@@ -1,0 +1,562 @@
+<p id="notice"><%= notice %></p>
+
+<!--<p>
+  <strong>Name:</strong>
+  <%= @plan.name %>
+</p>
+
+
+<% @plan.terms.each do |term| %>
+	
+	<li><%= term.semester %>
+	<%= term.year.to_s %> </li>
+
+	<% term.courses.each do |course| %>
+		<li> <%= course.name %> </li>
+	<%end %>
+
+<% end %>-->
+<head>
+	<link rel="icon" type="image/gif" href="http://i140.photobucket.com/albums/r14/lmnopart/Pixel/apesit.gif"/>
+	<!--<link type="text/css" rel="stylesheet" href="ape.css" />-->
+	<link href="https://fonts.googleapis.com/css?family=Gloria+Hallelujah" rel="stylesheet">
+	<meta name="author" content="Ann Costantino">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+<<<<<<< HEAD
+=======
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+		
+		
+		<!--<script src="pushmenu.js">-->
+		<!--/***********************************************-->
+		<!--* Side Push Menu- (c) Dynamic Drive DHTML code library (www.dynamicdrive.com)-->
+		<!--* Please keep this notice intact-->
+		<!--* Visit Dynamic Drive at http://www.dynamicdrive.com/ for this script and 100s more-->
+		<!--***********************************************/-->
+		</script>
+		
+		<script>
+
+		function removeClass(itemID, year, term, courseID){
+			//Should probably pass the requirements of year, term and course ID so we can delete from database
+			var table = document.getElementById('#ty');
+			var item = document.getElementById(itemID);
+			$('#' + itemID).remove();
+			//Call remove for the ruby here?
+			console.log("Year: " + year + " Term: " + term + " CourseID: " + courseID);
+			$.ajax({
+				url:'/plans/<%= @id %>/removecourse/' + courseID,
+				type:'POST',
+				dataType:'json',
+				data:{
+					semester: term,
+					year: year,
+				},
+				success:function(data){
+					console.log("YAY");
+				},
+				error:function(data){
+					console.log("BOO");
+				}
+			});
+		}
+		
+        var CurrentPlan; 
+
+//main function
+function populatePage(){
+>>>>>>> master
+	
+	<link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+	<link href='http://fonts.googleapis.com/css?family=Rosario:400,700' rel='stylesheet' type='text/css'>
+	<!--<link rel="stylesheet" type="text/css" href="pushmenu.css" />-->
+	<!--<link rel="stylesheet" href="jquery-ui.css">-->
+	
+
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+	
+	
+	<!--<script src="pushmenu.js">-->
+	<!--/***********************************************-->
+	<!--* Side Push Menu- (c) Dynamic Drive DHTML code library (www.dynamicdrive.com)-->
+	<!--* Please keep this notice intact-->
+	<!--* Visit Dynamic Drive at http://www.dynamicdrive.com/ for this script and 100s more-->
+	<!--***********************************************/-->
+	</script>
+	
+	<script>
+		
+		var CurrentPlan;
+		
+		//main function
+		function populatePage(){
+			
+			//var CurrentPlan;  
+		
+			$.getJSON('/plans/<%= @id %>.json', function(data) {
+				CurrentPlan = new plan(data.name, data.currYear, data.major, data.student, data.currTerm);
+			
+				for(let term of data.terms){
+					for(let course of term.courses){
+						CurrentPlan.addClass(course.semester, course.year, course.cid, course.name, course.credits);
+					}
+				}
+				
+				var today = new Date();
+				var fallClass;
+				var springClass;
+				var summerClass;
+				
+				
+				
+				//Step 2. Re-organize by Year
+				CurrentPlan.convertToYear();
+				
+				//Step 3. Populate page with divs holding the data
+				CurrentPlan.printData();
+			});
+			
+		}
+		
+		
+		//Constructor for plan
+		//var plan = function(){};
+		function plan(planName, catalogYear, major, studentName, currentSem){
+			this.planName = planName;
+			this.catalogYear = catalogYear;
+			this.major = major;
+			this.studentName = studentName;
+			this.currentSem = currentSem;
+			this.courses = {};
+			this.years = {};
+		}
+		
+		//Function to add a class to courses
+		plan.prototype.addClass = function(term, years, courseNumber, courseName, credits){
+			//Supposed to be }, but it doesn't work!
+			this.courses[courseNumber] = new course(term, years, courseNumber, courseName, credits);
+		};
+		
+		//Constructor for course
+		function course(term, year, courseNumber, courseName, credits){
+			this.term = term;
+			this.year = year;
+			this.courseNumber = courseNumber;
+			this.courseName = courseName;
+			this.credits = credits;
+		}
+		
+		//Constructor for year
+		function year(currentYear){
+			this.currentYear = currentYear;
+			this.fall = {};
+			this.spring = {};
+			this.summer = {};
+		}
+<<<<<<< HEAD
+		
+		//SOS
+		//Function to convert data into year hash
+		plan.prototype.convertToYear = function(){
+			for(var key in CurrentPlan.courses){
+				
+				//Grab year for course
+				var currYear = this.courses[key].year;
+				
+				//SOS If year doesn't exist in year hash, create year object and add to hash
+				if(!this.years[currYear]){
+					this.years[currYear] = new year(currYear);
+=======
+	}
+	//TODO: years any years inbetween that have not been created
+	
+};
+
+plan.prototype.printData = function(){
+	//TODO: Print the data structure in the UR div
+	var html = "<table id='ty'>";
+	for(key in CurrentPlan.years){
+		var curYear = this.years[key].currentYear;
+		//Check to see if year is history or current
+		checkDate(curYear);
+		
+			html += "<tr>";
+			//Dont know if I can call variables like this or if it will just be text
+				html+= "<th class=  \"" + fallClass + "\">Fall " + curYear + "</th>";
+				html+= "<th class=  \"" + springClass + "\">Spring " +(parseInt(curYear) + 1) + "</th>";
+				html+= "<th class=  \"" + summerClass + "\">Summer " + (parseInt(curYear) + 1)  + "</th>";
+				html+= "</tr>";
+				//Start row for Fall Spring and Summer
+				html+="<tr class=\"" + curYear + "\">";
+				//Create Fall table
+				html+= "<td class=  \"" + fallClass + "\">";
+				html+="<ul>";
+				for(FA in CurrentPlan.years[key].fall){
+					var idFall = this.years[key].fall[FA].courseNumber;
+					var nameFall = this.years[key].fall[FA].courseName;
+					//This creates a class list elment with unique id and then creates a remove button that will remove said class with the unique id assigned
+					html+="<li id='" +curYear+ "Fall" + idFall + "'>" + idFall  + ": " + nameFall + "<a class=\"closebutton\" href=\"javascript:removeClass('"+curYear+ "Fall" + idFall+ "'" + "," + "'" + curYear + "'" + ",'Fall'," + "'" + idFall + "')\">        [X]</a></li>";
+>>>>>>> master
+				}
+				
+<<<<<<< HEAD
+				//Place course in the corresponding term hash in year
+				//Fall
+				if(this.courses[key].term === "Fall"){
+					this.years[currYear].fall[this.courses[key].courseNumber] = this.courses[key];
+=======
+				//Create Spring table
+				html+= "<td class=  \"" + springClass + "\">";
+				html+="<ul>";
+				for(SP in CurrentPlan.years[key].spring){
+					var idSpring = this.years[key].spring[SP].courseNumber;
+					var nameSpring = this.years[key].spring[SP].courseName;
+					html+="<li id='" +curYear+ "Spring" + idSpring + "'>" + idSpring  + ": " + nameSpring + "<a class=\"closebutton\" href=\"javascript:removeClass('"+curYear+ "Spring" + idSpring + "'" + "," + "'" + curYear + "'" + ",'Spring'," + "'" + idSpring + "')\">        [X]</a></li>";
+>>>>>>> master
+				}
+				
+<<<<<<< HEAD
+				//Spring
+				else if (this.courses[key].term === "Spring"){
+					this.years[currYear].spring[this.courses[key].courseNumber] = this.courses[key];
+=======
+				//Create Summer table
+				html+= "<td class=  \"" + summerClass + "\">";
+				html+="<ul>";
+				for(SU in CurrentPlan.years[key].summer){
+					var idSummer = this.years[key].summer[SU].courseNumber;
+					var nameSummer = this.years[key].summer[SU].courseName;
+					html+="<li id='" +curYear+ "Summer" + idSummer + "'>" + idSummer  + ": " + nameSummer + "<a class=\"closebutton\" href=\"javascript:removeClass('"+curYear+ "Summer" + idSummer + "'" + "," + "'" + curYear + "'" + ",'Summer'," + "'" + idSummer + "')\">        [X]</a></li>";
+>>>>>>> master
+				}
+				
+				//Else
+				else{
+					this.years[currYear].summer[this.courses[key].courseNumber] = this.courses[key];
+				}
+			}
+			//TODO: years any years inbetween that have not been created
+			
+		};
+		
+		plan.prototype.printData = function(){
+			//TODO: Print the data structure in the UR div
+			var html = "<table id='planTable'>";
+			for(key in CurrentPlan.years){
+				var curYear = this.years[key].currentYear;
+				//Check to see if year is history or current
+				checkDate(curYear);
+				
+					html += "<tr>";
+					//Dont know if I can call variables like this or if it will just be text
+						html+= "<th class=  \"" + fallClass + "\">Fall " + curYear + "</th>";
+						html+= "<th class=  \"" + springClass + "\">Spring " +(parseInt(curYear) + 1) + "</th>";
+						html+= "<th class=  \"" + summerClass + "\">Summer " + (parseInt(curYear) + 1)  + "</th>";
+						html+= "</tr>";
+						//Start row for Fall Spring and Summer
+						html+="<tr class=\"" + curYear + "\">";
+						//Create Fall table
+						html+= "<td class=  \"" + fallClass + "\">";
+						html+="<ul>";
+						for(FA in CurrentPlan.years[key].fall){
+							var idFall = this.years[key].fall[FA].courseNumber;
+							var nameFall = this.years[key].fall[FA].courseName;
+							html+="<li>" + idFall  + ": " + nameFall + "</li>";
+						}
+						html+="</ul>";
+						html+="</td>";
+						
+						//Create Spring table
+						html+= "<td class=  \"" + springClass + "\">";
+						html+="<ul>";
+						for(SP in CurrentPlan.years[key].spring){
+							var idSpring = this.years[key].spring[SP].courseNumber;
+							var nameSpring = this.years[key].spring[SP].courseName;
+							html+="<li>" + idSpring  + ": " + nameSpring + "</li>";
+						}
+						html+="</ul>";
+						html+="</td>";
+						
+						//Create Summer table
+						html+= "<td class=  \"" + summerClass + "\">";
+						html+="<ul>";
+						for(SU in CurrentPlan.years[key].summer){
+							var idSummer = this.years[key].summer[SU].courseNumber;
+							var nameSummer = this.years[key].summer[SU].courseName;
+							html+="<li>" + idSummer  + ": " + nameSummer + "</li>";
+						}
+						html+="</ul>";
+						html+="</td>";
+						//End the tr for Fall Spring and Summer
+						html+="</tr>";
+			}
+			html += "</table>";
+			
+			$("#UR").prepend(html);
+			
+			//document.getElementById('UR').innerHTML = html;
+		};
+		
+		checkDate = function(year) {
+			fall = new Date("8/23/" + year);
+			spring = new Date("1/10/" + (parseInt(year) + 1));
+			summer = new Date("5/29/" + (parseInt(year) + 1));
+			
+			if(fall < today) {
+				fallClass = "history";
+			}
+			else {
+				fallClass = "current";
+			}
+			
+			if(spring < today){
+				springClass = "history";
+			}
+			else {
+				springClass = "current";
+			}
+			
+			if(summer < today) {
+				summerClass = "history";
+			}
+			else {
+				summerClass = "current";
+			}
+		};
+		
+		// Happy new year!
+		plan.prototype.addYear = function() {
+			
+			// get the last year and add to it
+			var currentYear = CurrentPlan.years[Object.keys(CurrentPlan.years)[Object.keys(CurrentPlan.years).length-1]].currentYear;
+			var newYear = currentYear + 1;
+			
+			// Add the new year to the object
+			if(!CurrentPlan.years[newYear]){
+				CurrentPlan.years[newYear] = new year(newYear);
+			}
+			
+			// See if the new year has passed...it won't have? This applies the right classes though
+			checkDate(newYear);
+
+			// Create the html for the new year
+			newYear = "<tr>" +
+					"<th class='" + fallClass + "'>Fall " + newYear + "</th>" +
+					"<th class='" + springClass + "'>Spring " +(newYear + 1) + "</th>" +
+					"<th class='" + summerClass + "'>Summer " + (newYear + 1) + "</th>" +
+				  "</tr>" +
+				  "<tr>" +
+					"<td class='" + fallClass + "'><ul></ul></td>" +
+					"<td class='" + springClass + "'><ul></ul></td>" +
+					"<td class='" + summerClass + "'><ul></ul></td>" +
+				   "</tr>";
+				   
+			// append the new year to the table
+			$("#planTable").append(newYear);
+		};
+		
+		plan.prototype.removeYear = function() {
+			console.log("remove year");
+			
+			// remove the html element
+			$('#planTable tr:last').remove();
+			$('#planTable tr:last').remove();
+			
+			// get the last year
+			var currentYear = CurrentPlan.years[Object.keys(CurrentPlan.years)[Object.keys(CurrentPlan.years).length-1]].currentYear;
+			
+			// delete the last year from the object
+			delete CurrentPlan.years[currentYear];
+		};
+		
+	</script>
+			
+	<script>
+		
+	    var CA;
+		function createTable(){
+			$.getJSON('/courses.json', function(data) {
+				CA = new courseArray();
+				
+				//for loop to cycle through courses and add them
+				for (var schoolClass in data) {
+					CA.addCourse(data[schoolClass].cid, data[schoolClass].name, data[schoolClass].description, data[schoolClass].credits);
+				}	
+				
+				CA.printTable();
+			});
+		}
+	
+		function courseArray(){
+			this.courses = {};
+		};
+	
+		function tableCourse(courseNumber, courseName, courseDes, cred){
+			this.courseNumber = courseNumber;
+			this.courseName = courseName;
+			this.courseDes = courseDes;
+			this.cred = cred;
+		};
+	
+		courseArray.prototype.addCourse = function(courseNumber, courseName, courseDes, cred){
+			this.courses[courseNumber] = new tableCourse(courseNumber, courseName, courseDes, cred);
+		};
+	
+		courseArray.prototype.printTable = function(){
+			var html = "<input type=\"text\" id=\"tableInput\" onkeyup=\"filterTable()\" placeholder=\"Find the right Banana (Course)\">";
+			html += "<table id=\"searchTable\">";
+			html += "<tr class=\"header\">";
+			html+= "<th>Course ID</th>" + "<th>Name</th>" +"<th>Credits</th>" ;
+			html+= "</tr>";
+			for(var key2 in CA.courses){
+				html+="<tr>";
+				html+= "<td>"+CA.courses[key2].courseNumber+"</td>" + "<td>"+CA.courses[key2].courseName+"</td>" + "<td>"+CA.courses[key2].cred+"</td>";
+				html+="</tr>";
+			}
+			html += "</table>";
+			
+			document.getElementById('LR').innerHTML = html;
+		};
+	
+		function filterTable(){
+			// Declare variables 
+			var input, filter, table, tr, td, i;
+			input = document.getElementById("tableInput");
+			filter = input.value.toUpperCase();
+			table = document.getElementById("searchTable");
+			tr = table.getElementsByTagName("tr");
+		
+			// Loop through all table rows, and hide those who don't match the search query
+			for (i = 0; i < tr.length; i++) {
+				td = tr[i].getElementsByTagName("td")[0];
+				td2 = tr[i].getElementsByTagName("td")[1];
+				if (td || td2) {
+					if (td.innerHTML.toUpperCase().indexOf(filter) > -1 || td2.innerHTML.toUpperCase().indexOf(filter) > -1) {
+					      tr[i].style.display = "";
+					} else {
+						tr[i].style.display = "none";
+					}
+				} 
+			}		
+		};
+	</script>
+			
+			
+	<script>
+		
+		jQuery(function(){ // on DOM load
+		
+			menu1 = new pushmenu({  // initialize menu example
+				menuid: 'pushmenu1',
+				position: 'left',
+				<!-- pushcontent: false, -->
+				marginoffset: 0,
+				revealamt: -8,
+				onopenclose:function(state){ // add or remove "open" class to animated drawer button depending on menu state
+					var $buttonref = $('#drawer');
+					if (state == 'open')
+						$buttonref.addClass('open');
+					else
+						$buttonref.removeClass('open');
+				}
+			});
+		
+		});
+	
+	</script>
+	
+	<!-- Accordion-->
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script>
+		$( function() {
+			$( "#accordion" ).accordion();
+		} );
+	</script>
+		
+</head>
+	<!--<body onload="populatePage(); createTable();">-->
+<body>
+
+	<!--HEADER THING-->
+	<div id="pushcontentwrapper">
+		
+	<nav id="pushmenu1" class="pushmenu">
+
+		<h2>Navigation</h2>
+	
+		<div class="closebutton fa fa-plus-circle" title="Close Menu"></div>
+	
+		<ul class="mainnav">
+			<li><a href= "http://judah.cedarville.edu/peopleschoice/index.php"> VOTE FOR US</a></li>
+			<li><a href="http://judah.cedarville.edu/peopleschoice/index.php"> PLEASE</a></li>
+		</ul>
+		
+	</nav>
+	
+
+	<div id="title">
+	    <div id="menu-button">
+		<a id="drawer" class="animateddrawer toggleitem" href="#" onClick="menu1.toggle(); return false">
+		    <span></span>
+		</a>
+	    </div>
+	
+	    <div style="padding: 25px; text-align: left; float: left; display: inline-block;">BRANCH (formerly known as APE)</div>
+	    <div style="padding: 25px; text-align: right; float: right; display: inline-block;"><b>Plan Name:</b> <%= @name %> &nbsp;&nbsp;&nbsp;&nbsp;<b>Major:</b> <%= @major %> </div>
+	
+	</div>
+
+<<<<<<< HEAD
+	<!--FOUR DIVS-->	
+	<div id="L">	
+		<div id="UL">
+		<!--Accordion-->
+			<h1> JUST MONKEYING AROUND WITH PRE REQUISITES</h1>
+			<!--<img src="monkeys.jpg" id="PREREQ" alt="monkey photo: monkeys.jpg">-->
+				<div id="accordion">
+				<h3>Gen Eds</h3>
+				<div>
+				  <p>Gen. Psych! x3</p>
+=======
+				
+				<div id="UL">
+>>>>>>> master
+				</div>
+				<h3>Track</h3>
+				<div>
+				  <p>Linux Programming</p>
+				  <p>Cyber Operations</p>
+				  <p>Software Security</p>
+				</div>
+				<h3>Core</h3>
+				<div>
+				  <p>Stuff 1</p>
+				  <p>Stuff 2</p>
+				  <p>Stuff 3</p>
+				</div>
+				</div> 
+		</div>
+		<div id="LL">
+			<a href="http://photobucket.com/images/ape%20pixel" target="_blank">
+			<img src="http://i140.photobucket.com/albums/r14/lmnopart/Pixel/apesit.gif"
+			alt="ape pixel photo: Ape Sit apesit.gif"/></a>
+			<br>
+			<%= link_to 'Edit', edit_plan_path(@plan) %> |
+			<%= link_to 'Back', plans_path %>
+		</div>	
+	</div>
+	
+	<div id="R">
+		<div id="UR">
+			<div id="addYear" onclick="plan.prototype.addYear()">Add Year</div>
+			<div id="removeYear" onclick="plan.prototype.removeYear()">Remove Last Year</div>
+		</div>
+		<div id="LR">
+			<!--Search bar-->
+		</div>
+	</div>			
+</body>
+
+
