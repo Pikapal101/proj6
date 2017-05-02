@@ -510,6 +510,57 @@ checkDate = function(year) {
 		
 		</script>
 		
+		<script>
+			var addedToYears = false;
+			
+			function updateYears() {
+				// Get the year we selected				
+				var semester = $("#semester").val();
+				
+				console.log(semester);
+				
+				if(semester != "Fall" && !addedToYears) {
+					
+					console.log("add to the years");
+					
+					// Get the options from the years
+					// add 1 to each of them
+					// put them in as the new options
+					$("#year option").each(function() {
+					    // Add $(this).val() to your list
+					    y = parseInt($(this).val()) + 1;
+					    $(this).val(y);
+					    $(this).text(y);
+					    
+					    console.log($(this).val());
+					});
+					
+					addedToYears = true;
+				} else if (semester == "Fall" && addedToYears) {
+					console.log("subtract from the years");
+					
+					// Get the options from the years
+					// subtract 1 from each of them
+					// put them in as the new options
+					$("#year option").each(function() {
+					    // Add $(this).val() to your list
+					    y = parseInt($(this).val()) - 1;
+					    $(this).val(y);
+					    $(this).text(y);
+					    
+					    console.log($(this).val());
+					});
+					
+					addedToYears = false;
+				}
+				
+				
+				
+				// Note if we change the semester to spring or summer and then change it back to fall we will need to subtract off of the years again.
+				
+			}
+		</script>
+		
 		<!-- Accordion-->
 		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -563,7 +614,8 @@ checkDate = function(year) {
 					<br>
 					<p>ADD A BANANA (COURSE)</p>
 					<form id="add" onsubmit="addClass()">
-						<select id="semester">
+						 <!--onchange="setYears()-->
+						<select id="semester" onchange="updateYears()">
 							<% @terms = @plan.terms %>
 							<% @uniterm = @terms.select("distinct semester").map {|a| a.semester} %>
 							<% @uniterm.each do |term| %>
